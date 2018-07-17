@@ -12,8 +12,8 @@ class RFHandler:
         self.accessoryCallbacks = {}
         self.baseXbee.add_io_sample_received_callback(self.ioSampleCallback)
 
-    def __del__(self):
-        print("Killing RFHandler")
+    def stop(self):
+        print("Stopping RFHandler")
         self.baseXbee.close()
 
     def addAccessoryCallback(self, accessoryName, callbackFct):

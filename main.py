@@ -31,3 +31,5 @@ signal.signal(signal.SIGTERM, driver.signal_handler)
 
 # Start it!
 driver.start()
+
+rfHandler.stop()

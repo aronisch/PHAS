@@ -26,8 +26,9 @@ class AmplifierAccessory(Accessory):
         self.powerUpThread.delay = 20
         self.powerUpThread.start()
 
-    def __del__(self):
-        print("Killing Amp Accessory")
+    def stop(self):
+        print("Stopping Amp Accessory")
+        super().stop()
         self.rfHandler.removeRemoteAccessory(self.display_name)
         self.stoppingThreadEvent.set()
         self.powerUpThread.join()
