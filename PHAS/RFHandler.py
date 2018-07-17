@@ -60,4 +60,4 @@ class RFHandler:
     def ioSampleCallback(self, ioSample, remoteXbee, sendTime):
         currentAccessoryName = self.getAccessoryNameFromXbeeDevice(remoteXbee)
         if currentAccessoryName in self.accessoryCallbacks:
-            self.accessoryCallbacks[currentAccessoryName](ioSample)
+            self.accessoryCallbacks[currentAccessoryName](ioSample, sendTime)
