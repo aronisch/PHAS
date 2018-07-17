@@ -2,6 +2,9 @@ from digi.xbee.devices import XBeeDevice, RemoteXBeeDevice
 from digi.xbee.io import IOLine, IOMode
 from digi.xbee.models.address import XBee64BitAddress
 from digi.xbee.exception import TimeoutException
+import logging
+
+logger = logging.getLogger(__name__)
 
 class RFHandler:
 
@@ -13,7 +16,7 @@ class RFHandler:
         self.baseXbee.add_io_sample_received_callback(self.ioSampleCallback)
 
     def stop(self):
-        print("Stopping RFHandler")
+        logger.info("Stopping RFHandler")
         self.baseXbee.close()
 
     def addAccessoryCallback(self, accessoryName, callbackFct):
@@ -41,21 +44,21 @@ class RFHandler:
                 self.remoteAccessories[accessoryName].set_io_configuration(pin, config)
                 sent = 1
             except TimeoutException:
-                print("TimeOutException in setDigitalConfigurationOfAccessoryPin")
+                logger.debug("TimeOutException in setDigitalConfigurationOfAccessoryPin")
 
     def getInputStateOfAccessoryPin(self, accessoryName, pin):                          #TODO : CATCH TIMEOUT ERRORS
         while 1:
             try:
                 return self.remoteAccessories[accessoryName].get_dio_value(pin)
             except TimeoutException:
-                print("TimeOutException in getInputStateOfAccessoryPin")
+                logger.debug("TimeOutException in getInputStateOfAccessoryPin")
 
     def getDigitalConfigurationOfAccessoryPin(self, accessoryName, pin):                #TODO : CATCH TIMEOUT ERRORS
         while 1:
             try:
                 return self.remoteAccessories[accessoryName].get_io_configuration(pin)
             except TimeoutException:
-                print("TimeOutException in getInputStateOfAccessoryPin")
+                logger.debug("TimeOutException in getInputStateOfAccessoryPin")
 
     def ioSampleCallback(self, ioSample, remoteXbee, sendTime):
         currentAccessoryName = self.getAccessoryNameFromXbeeDevice(remoteXbee)
