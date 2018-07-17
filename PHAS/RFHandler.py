@@ -12,11 +12,18 @@ class RFHandler:
         self.accessoryCallbacks = {}
         self.baseXbee.add_io_sample_received_callback(self.ioSampleCallback)
 
+    def __del__(self):
+        print("Killing RFHandler")
+        self.baseXbee.close()
+
     def addAccessoryCallback(self, accessoryName, callbackFct):
         self.accessoryCallbacks[accessoryName] = callbackFct
 
     def addRemoteAccessory(self, accessoryName, xbeeAddressString):
         self.remoteAccessories[accessoryName] = RemoteXBeeDevice(self.baseXbee, XBee64BitAddress.from_hex_string(xbeeAddressString))
+
+    def removeRemoteAccessory(self, accessoryName):
+        del self.remoteAccessories[accessoryName]
 
     def getAccessoriesNames(self):
         return remoteAccessories.keys()
