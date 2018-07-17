@@ -78,7 +78,7 @@ class AmplifierAccessory(Accessory):
         while not self.stoppingThreadEvent.is_set():
             #Check if a power up is asked and then wait for the delay
             if self.powerUpEvent.is_set():
-                logger.info("Power up with delay : ", getattr(t, "delay"))
+                logger.info("Power up with delay : %f", getattr(t, "delay"))
                 #If this event is set, the powerUp is cancelled (the delay is not applied), else power the amp up
                 self.validationEvent.wait(getattr(t, "delay"))
                 if not self.validationEvent.is_set():
@@ -93,7 +93,7 @@ class AmplifierAccessory(Accessory):
         if newState == 1:
             self.amplifier.value = 1
             self.amplifier.notify()
-            if time.time() - self.lastPowerOffTime < POWER_ON_SAFETY_DELAY:     #TODO Maybe find a new way to indicate to HomeKit users power up is delayed
+            if time.time() - self.lastPowerOffTime < POWER_ON_SAFETY_DELAY:
                 self.powerUpThread.delay = POWER_ON_SAFETY_DELAY - time.time() + self.lastPowerOffTime
                 self.powerUpEvent.set()
             else:
