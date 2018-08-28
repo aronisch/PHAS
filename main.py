@@ -12,7 +12,7 @@ import pyhap.loader as loader
 from accessories.PHAS_AmpAccessory import AmplifierAccessory
 from PHAS.RFHandler import RFHandler
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 # Start the accessory on port 51826
 driver = AccessoryDriver(port=51826)
@@ -21,7 +21,7 @@ driver = AccessoryDriver(port=51826)
 rfHandler = RFHandler("/dev/serial0", 115200)
 
 # Create and add the PHAS Amplifier Accessory to the driver
-ampAcc = AmplifierAccessory(driver,"Amplifier")
+ampAcc = AmplifierAccessory(driver,"Amplificateur")
 ampAcc.startAmpWithHandler(rfHandler)
 driver.add_accessory(accessory=ampAcc)
 

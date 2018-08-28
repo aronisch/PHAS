@@ -8,7 +8,7 @@ import concurrent.futures
 import logging
 
 POWER_ON_SAFETY_DELAY = 20.0    #Delay in s after a shutdown before powering back up
-DEBOUNCING_DELAY = 0.1          #Delay to debounce the switch
+DEBOUNCING_DELAY = 0.2          #Delay to debounce the switch
 
 logger = logging.getLogger(__name__)
 
@@ -67,6 +67,7 @@ class AmplifierAccessory(Accessory):
             logger.debug("DEBOUNCE")
 
     def toggleAmplifierPower(self):
+        logger.info("Toggling amp from the switch")
         if self.amplifier.value == 0:
             self.amplifier.client_update_value(1)
         else:
