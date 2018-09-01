@@ -8,7 +8,7 @@ import concurrent.futures
 import logging
 
 POWER_ON_SAFETY_DELAY = 20.0    #Delay in s after a shutdown before powering back up
-DEBOUNCING_DELAY = 0.1          #Delay to debounce the switch
+DEBOUNCING_DELAY = 0.2          #Delay to debounce the switch
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +56,7 @@ class AmplifierAccessory(Accessory):
 
     #Callback when IOSample are received (ie. when the switch is used)
     def amplifierCallback(self, ioSample, sendTime):
-        #print("lastSendTime = ", self.lastSendTime, "current sendTime = ", sendTime)
+        print("Amplifier CallBack - lastSendTime = ", self.lastSendTime, "current sendTime = ", sendTime)
         if not sendTime - self.lastSendTime < DEBOUNCING_DELAY:
             newSwitchState = ioSample.get_digital_value(IOLine.DIO2_AD2)
             self.lastSendTime = sendTime
@@ -67,6 +67,7 @@ class AmplifierAccessory(Accessory):
             logger.debug("DEBOUNCE")
 
     def toggleAmplifierPower(self):
+        logger.info("Toggling Amplifier (Switch Used)")
         if self.amplifier.value == 0:
             self.amplifier.client_update_value(1)
         else:

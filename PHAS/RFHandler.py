@@ -39,25 +39,31 @@ class RFHandler:
 
     def setDigitalConfigurationOfAccessoryPin(self, accessoryName, pin, config):        #TODO : CATCH TIMEOUT ERRORS
         sent = 0
-        while not sent:
+        retry = 0
+        while not sent and retry < 5:
             try:
                 self.remoteAccessories[accessoryName].set_io_configuration(pin, config)
                 sent = 1
             except TimeoutException:
                 logger.debug("TimeOutException in setDigitalConfigurationOfAccessoryPin")
+                retry += 1
 
     def getInputStateOfAccessoryPin(self, accessoryName, pin):                          #TODO : CATCH TIMEOUT ERRORS
-        while 1:
+        retry = 0
+        while retry < 5:
             try:
                 return self.remoteAccessories[accessoryName].get_dio_value(pin)
             except TimeoutException:
+                retry += 1
                 logger.debug("TimeOutException in getInputStateOfAccessoryPin")
 
     def getDigitalConfigurationOfAccessoryPin(self, accessoryName, pin):                #TODO : CATCH TIMEOUT ERRORS
-        while 1:
+        retry = 0
+        while retry < 5:
             try:
                 return self.remoteAccessories[accessoryName].get_io_configuration(pin)
             except TimeoutException:
+                retry += 1
                 logger.debug("TimeOutException in getInputStateOfAccessoryPin")
 
     def ioSampleCallback(self, ioSample, remoteXbee, sendTime):
