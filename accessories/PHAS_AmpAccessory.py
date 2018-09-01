@@ -67,7 +67,7 @@ class AmplifierAccessory(Accessory):
             logger.debug("DEBOUNCE")
 
     def toggleAmplifierPower(self):
-        logger.info("Toggling Amplifier (Switch Used)")
+        logger.info("Toggling amp from the switch")
         if self.amplifier.value == 0:
             self.amplifier.client_update_value(1)
         else:
